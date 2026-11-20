@@ -7,8 +7,12 @@ Use cWebPanel.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
-
+Use cWebButton.pkg
+Use cWebList.pkg
+Use SelectEquipo.wo
+Use cequipoDataDictionary.dd
 Use cligaDataDictionary.dd
+
 
 Object oZoomLiga is a cWebView
     Set piColumnCount to 12
@@ -21,6 +25,10 @@ Object oZoomLiga is a cWebView
 
     Object oliga_DD is a cligaDataDictionary
     End_Object 
+    
+    Object oequipo_DD is a cequipoDataDictionary
+        Set DDO_Server to oliga_DD
+    End_Object
 
     Set Main_DD To oliga_DD
     Set Server  To oliga_DD
@@ -69,7 +77,40 @@ Object oZoomLiga is a cWebView
             Set peLabelPosition to lpTop
             Set psLabel to "EquiposMax"
         End_Object 
-    End_Object 
+
+        Object oVerEquiposBtn is a cWebButton
+            Set psCaption to "Ver equipos"
+            Set piColumnSpan to 4
+            Set piColumnIndex to 0
+
+            WebRegisterPath ntNavigateForward oSelectEquipo
+
+            Procedure OnClick
+                Send NavigatePath
+            End_Procedure
+        End_Object 
+        
+        Object oEquiposList is a cWebList
+            Set piColumnCount to 12
+            Set piColumnSpan to 12
+            Set piColumnIndex to 0
+            Set psCaption to "Equipos de la liga"
+            Set pbShowHeader to True
+            Set Server to oequipo_DD
+
+            Object oColEquipoID is a cWebColumn
+                Entry_Item equipo.ID
+                Set psCaption to "ID"
+                Set piWidth to 60
+            End_Object
+
+            Object oColEquipoNombre is a cWebColumn
+                Entry_Item equipo.Nombre
+                Set psCaption to "Nombre"
+                Set piWidth to 240
+            End_Object
+        End_Object
+    End_Object
 
     Object oActionGroup is a cWebMenuGroup
 
